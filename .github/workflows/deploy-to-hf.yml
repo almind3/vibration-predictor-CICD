@@ -67,6 +67,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install huggingface_hub
 
+
       - name: Push to Hugging Face Space
         env:
             HF_TOKEN: ${{ secrets.HF_TOKEN }}
