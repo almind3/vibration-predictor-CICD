@@ -67,32 +67,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install huggingface_hub
 
-      - name: Configure HF token
+      - name: Configure HF
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          mkdir -p ~/.huggingface
-          echo $HF_TOKEN > ~/.huggingface/token
-      - name: Clone HF Space repo
-        env:
-          HF_SPACE: ${{ env.HF_SPACE }}
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          TMPDIR=$(mktemp -d)
-          git clone https://$HF_TOKEN@huggingface.co/spaces/${HF_SPACE} $TMPDIR/space
+            git remote add space https://huggingface.co/spaces/alrazumov/vibration-predictor
+            git push --force space main
 
-      - name: Sync files to HF Space
+      - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: |
-          rsync -av --delete \
-            --exclude '.git/' \
-            --exclude '.github/' \
-            $GITHUB_WORKSPACE/ $TMPDIR/space/
-
-          cd $TMPDIR/space
-          git config user.email "actions@github.com"
-          git config user.name "github-actions[bot]"
-          git add -A
-          git commit -m "Auto-deploy from GitHub Actions: $GITHUB_SHA" || true
-          git push origin main
+        run: git push https://HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/alrazumov/vibration-predictor main https://alrazumov:$HF_TOKEN@huggingface.co/spaces/alrazumov/vibration-predictor main
