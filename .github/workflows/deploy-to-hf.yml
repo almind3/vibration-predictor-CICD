@@ -61,12 +61,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
       - name: Install HF CLI
         run: |
           python -m pip install --upgrade pip
           pip install huggingface_hub
-
+      - name: Set Git identity
+        run: |
+            git config --global user.email "actions@github.com"
+            git config --global user.name "github-actions[bot]"
 
       - name: Push to Hugging Face Space
         env:
