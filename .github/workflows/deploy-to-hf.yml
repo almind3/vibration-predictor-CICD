@@ -100,8 +100,15 @@ jobs:
             --exclude '.git/' \
             --exclude '.github/' \
             $GITHUB_WORKSPACE/ $TMPDIR/space/
-      
+
           cd $TMPDIR/space
+
+          git lfs install --local
+
+          git remote set-url origin https://$HF_TOKEN@huggingface.co/spaces/${HF_SPACE}
+
           git add -A
           git commit -m "Auto-deploy from GitHub Actions: $GITHUB_SHA" || true
-          git push https://$HF_TOKEN@huggingface.co/spaces/${HF_SPACE} HEAD:main
+
+          git push origin main
+
