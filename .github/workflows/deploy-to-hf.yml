@@ -94,6 +94,7 @@ jobs:
       - name: Sync contents and deploy
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE: ${{ env.HF_SPACE }}
         run: |
           rsync -av --delete \
             --exclude '.git/' \
@@ -103,4 +104,4 @@ jobs:
           cd $TMPDIR/space
           git add -A
           git commit -m "Auto-deploy from GitHub Actions: $GITHUB_SHA" || true
-          git push origin main
+          git push https://$HF_TOKEN@huggingface.co/spaces/${HF_SPACE} HEAD:main
