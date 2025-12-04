@@ -1,3 +1,14 @@
+title: Vibration Predictor
+emoji: "⚡"
+colorFrom: "blue"
+colorTo: "green"
+sdk: docker
+app_port: 8080
+app_file: app.py
+pinned: false
+
+
+
 Vibration-Based Bearing Failure Predictor <br />
 FastAPI • Docker • AWS ECS (Fargate) • XGBoost  <br />
 <br />
